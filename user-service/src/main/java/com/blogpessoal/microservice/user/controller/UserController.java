@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UserController {
 
 
@@ -27,6 +26,13 @@ public class UserController {
     @GetMapping("/all")
     public ResponseEntity <List<User>> getAll(){
         return  ResponseEntity.ok(userRepository.findAll());
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<User> getEmail(@PathVariable String email){
+        return  userRepository.findByEmail(email)
+                .map(response -> ResponseEntity.ok(response))
+                .orElse(ResponseEntity.notFound().build());
     }
 
 
